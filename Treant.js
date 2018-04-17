@@ -497,8 +497,7 @@
             var self = this;
 
             if ( this.imageLoader.isNotLoading() ) {
-                var root = this.root(),
-                    orient = this.CONFIG.rootOrientation;
+                var root = this.root();
 
                 this.resetLevelData();
 
@@ -554,14 +553,8 @@
 
             var leftSibling = node.leftSibling();
 
-            if ( node.childrenCount() === 0 || level == this.CONFIG.maxDepth ) {
-                // set preliminary x-coordinate
-                if ( leftSibling ) {
-                    node.prelim = leftSibling.prelim + leftSibling.size() + this.CONFIG.siblingSeparation;
-                }
-                else {
-                    node.prelim = 0;
-                }
+            if ( node.childrenCount() === 0 || level == this.CONFIG.maxDepth ) { // set preliminary x-coordinate
+                node.prelim = leftSibling ? (leftSibling.prelim + leftSibling.size() + this.CONFIG.siblingSeparation) : 0;
             }
             else {
                 //node is not a leaf,  firstWalk for each child
@@ -626,7 +619,7 @@
                 }
 
                 // find the gap between two trees and apply it to subTrees
-                // and mathing smaller gaps to smaller subtrees
+                // and matching smaller gaps to smaller subtrees
 
                 var totalGap = (firstChildLeftNeighbor.prelim + modifierSumLeft + firstChildLeftNeighbor.size() + this.CONFIG.subTeeSeparation) - (firstChild.prelim + modifierSumRight );
 
@@ -1759,12 +1752,9 @@
         },
 
         show: function() {
-            var bCurrentState = this.hidden;
             this.hidden = false;
 
             this.nodeDOM.style.visibility = 'visible';
-
-            var oTree = this.Tree();
 
             var oNewState = {
                     left: this.X,
@@ -1854,9 +1844,9 @@
                 if (key.startsWith("data-")) {
                     node.setAttribute(key, this.text[key]);
                 } else {
-                    
+
                     var textElement = document.createElement(this.text[key].href ? 'a' : 'p');
-                    
+
                     // make an <a> element if required
                     if (this.text[key].href) {
                         textElement.href = this.text[key].href;
@@ -1864,14 +1854,14 @@
                             textElement.target = this.text[key].target;
                         }
                     }
-                    
+
                     textElement.className =  "node-"+key;
                     textElement.appendChild(document.createTextNode(
                         this.text[key].val ? this.text[key].val :
                         this.text[key] instanceof Object ? "'val' param missing!" : this.text[key]
                     )
                     );
-                    
+
                     node.appendChild(textElement);
                 }
             }
